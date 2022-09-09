@@ -11,48 +11,60 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    email = Column(String(250))
-    password = Column(String(250))
-    inscription_date = Column(String(250))
-    name = Column(String(250))
-    lastname = Column(String(250))
+    user_name = Column(String(100), nullable=False, unique=True)
+    email = Column(String(100), nullable=False, unique=True)
+    password = Column(String(50), nullable=False)
+   
 
 class Character(Base):
-    __tablename__ = 'character'
+    __tablename__ = 'characters'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250))
-    height = Column(String(250))
-    mass = Column(String(250), nullable=False)
-    eye_color = Column(String(250))
-    birth_year = Column(String(250))
-    gender = Column(String(250))
+    name = Column(String(100), nullable=False, unique=True)
+    height = Column(String(50))
+    mass = Column(String(50))
+    eye_color = Column(String(20))
+    birth_year = Column(String(50))
+    gender = Column(String(20))
 
 class Planet(Base):
-    __tablename__ = 'planet'
+    __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250))
-    diameter = Column
-    climate = Column
-    surface_water = Column
-    population = Column
-
-class Film(Base):
-    __tablename__ = 'film'
-    id = Column(Integer, primary_key=True)
-    title = Column
-    director = Column
-    producer = Column
-    release_date = Column
+    name = Column(String(100), nullable=False, unique=True)
+    diameter = Column(Integer)
+    climate = Column(String(100))
+    surface_water = Column(String(50))
+    population = Column(Integer)
 
 class Starship(Base):
-    __tablename__ = 'starship'
+    __tablename__ = 'starships'
     id = Column(Integer, primary_key=True)
-    name = Column
-    model = Column
-    manufacturer = Column
-    cost_in_credits = Column
-    crew = Column
-    passengers = Column 
+    name = Column(String(100), unique=True)
+    model = Column(String(100), unique=True)
+    manufacturer = Column(String(100))
+    cost_in_credits = Column(Integer)
+    crew = Column(Integer)
+    passengers = Column(Integer)
+    cardo_capacity = Column(Integer)
+
+
+
+    class Favorite_character(Base):
+        __tablename__= 'favorite_characters'
+        id = Column(Integer, ForeignKey('characters.id'), primary_key=True)
+        user_id=Column(Integer, ForeignKey('user.id'), nullable=False)
+
+
+    class favorite_planet(Base):
+        __tablename__='favorite_planets'
+        id = Column(Integer, ForeignKey('planets.id'), primary_key=True)
+        user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+
+    class favorite_starship(Base):
+        __tablename__='favorite_starships'
+        id= Column(Integer, ForeignKey('starships.id'), primary_key=True)
+        user_id=Column(Integer, ForeignKey('user.id'), nullable=False)
+
+
 
     def to_dict(self):
         return {}
